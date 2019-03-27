@@ -9,7 +9,7 @@ const app = express();
 
 const mongoose = require('mongoose');
 let mongoDB = process.env.MONGODB_URI || process.env.DB_CONN;
-mongoose.connect(mongoDB, {useNewUrlParser: true});
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -17,7 +17,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.set('view engine', 'ejs');
+
+app.get('/', function (req, res) {
+    res.render('index',{user: "Great User",title:"homepage"});
+});
 
 app.use('/logs', log);
 
