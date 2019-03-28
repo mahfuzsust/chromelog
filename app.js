@@ -22,7 +22,7 @@ app.set('view engine', 'ejs');
 
 app.use('/logs', log);
 
-let port = 3000 || process.env.PORT;
+let port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log('Server is up and running on port numner ' + port);
 });
