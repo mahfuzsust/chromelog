@@ -23,6 +23,7 @@
 		"storage",
 		"identity",
 		"identity.email",
-		"tabs"
+		"tabs",
+		"https://chromelog.herokuapp.com"
 	]
 }

@@ -27,7 +27,7 @@ chrome.storage.sync.get('userid', function (items) {
 });
 
 var store = function (email, host, time) {
-    var url = "http://localhost:3000/logs/insert";
+    var url = "https://chromelog.herokuapp.com/logs/insert";
     var json = JSON.stringify({ "email": email, "host": host, "time": time });
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
