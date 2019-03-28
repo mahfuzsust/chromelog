@@ -1,67 +1,75 @@
 <html>
 
 <head>
-  <title>Chrome Web Log</title>
+    <title>Chrome Web Log</title>
 </head>
 
 <body>
     <span id='variableJSON' hidden>
-        <%= JSON.stringify(posts); %>
+        <%= JSON.stringify(logs); %>
     </span>
-  <div class="list-group">
-    <!-- loop over blog posts and render them -->
-    <% posts.forEach((post) => { %>
-    <a href="/post/<%= post.id %>" class="list-group-item">
-      <h4 class="list-group-item-heading"><%= post.title %></h4>
-      <p class="list-group-item-text"><%= post.author %></p>
-    </a>
-    <% }) %>
-  </div>
-  <div style="max-width: 400px;max-height: 400px;">
-  <canvas id="myChart" width="400px" height="400px"></canvas>
-</div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-  <script>
-    var variableJSON = JSON.parse(document.getElementById('variableJSON').innerText);
-// $('#variableJSON').remove();
-console.log(variableJSON);
-    var ctx = document.getElementById('myChart');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
+    <div style="max-width: 800px;max-height: 800px;">
+        <canvas id="myChart" width="800px" height="800px"></canvas>
+    </div>
+    <script>
+        var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+        if (!isChrome) {
+            window.location.replace("https://www.google.com/chrome/");
         }
-    });
+    </script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script>
+        var data = JSON.parse($('#variableJSON').text());
+        $('#variableJSON').remove();
+        var ctx = document.getElementById('myChart');
+        const backgroundColor = [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+        ];
+        const borderColor = [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ];
+        function getColor(arr, nItems) {
+            var result = [];
+            for (var i = 0, j = 0; i < nItems; i++ , j++) {
+                if (j == arr.length) j = 0;
+                result.push(arr[j]);
+            }
+            return result;
+        }
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(obj => { return obj.host; }),
+                datasets: [{
+                    label: '# of Votes',
+                    data: data.map(obj => { return obj.time; }),
+                    backgroundColor: getColor(backgroundColor, 8),
+                    borderColor: getColor(borderColor, 8),
+                    borderWidth: 1
+                }]
+            },
+            // options: {
+            //     scales: {
+            //         yAxes: [{
+            //             ticks: {
+            //                 beginAtZero: true
+            //             }
+            //         }]
+            //     }
+            // }
+        });
     </script>
 </body>
 

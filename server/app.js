@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const log = require('./routes/log.route'); // Imports routes for the products
+const log = require('./routes/log.route');
 
 // initialize our express app
 const app = express();
@@ -20,39 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 
-app.get('/', function (req, res) {
-    const posts = [
-        {
-          id: 1,
-          author: 'John',
-          title: 'Templating with EJS',
-          body: 'Blog post number 1'
-        },
-        {
-          id: 2,
-          author: 'Drake',
-          title: 'Express: Starting from the Bottom',
-          body: 'Blog post number 2'
-        },
-        {
-          id: 3,
-          author: 'Emma',
-          title: 'Streams',
-          body: 'Blog post number 3'
-        },
-        {
-          id: 4,
-          author: 'Cody',
-          title: 'Events',
-          body: 'Blog post number 4'
-        }
-      ]
-    res.render('index',{ posts: posts });
-});
-
 app.use('/logs', log);
 
 let port = 3000 || process.env.PORT;
 app.listen(port, () => {
-    console.log('Server is up and running on port numner ' + port);
+  console.log('Server is up and running on port numner ' + port);
 });
